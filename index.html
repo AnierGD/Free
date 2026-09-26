@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Diamantes Free Fire - Venta por Saldo</title>
+<title>Adriana Diamonds 🇨🇺 - Free Fire</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
   body {
@@ -14,17 +14,25 @@
   }
   header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     padding: 20px;
   }
+  header .emoji-top { font-size: 2rem; }
   header h1 {
-    font-size: 2.2rem;
+    font-size: 2.1rem;
     background: linear-gradient(90deg, #ff8a00, #ffd200, #00e0ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 10px;
+    margin: 8px 0;
+  }
+  header h2 {
+    font-size: 1.3rem;
+    color: #ffd200;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
   }
   header p { color: #b8b8d1; font-size: 1rem; }
+
   .aviso {
     background: rgba(255, 138, 0, 0.15);
     border: 1px solid #ff8a00;
@@ -33,9 +41,19 @@
     border-radius: 12px;
     text-align: center;
     max-width: 600px;
-    margin: 0 auto 30px;
+    margin: 0 auto 25px;
     font-size: 0.95rem;
   }
+
+  .seccion-titulo {
+    max-width: 1100px;
+    margin: 25px auto 15px;
+    font-size: 1.1rem;
+    color: #00e0ff;
+    border-left: 4px solid #00e0ff;
+    padding-left: 10px;
+  }
+
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -43,6 +61,7 @@
     max-width: 1100px;
     margin: 0 auto;
   }
+
   .card {
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.12);
@@ -60,17 +79,13 @@
     box-shadow: 0 12px 30px rgba(0,224,255,0.25);
     background: rgba(0,224,255,0.08);
   }
-  .card .icon {
-    font-size: 2.2rem;
-    margin-bottom: 8px;
-    display: block;
-  }
+  .card .icon { font-size: 2.2rem; margin-bottom: 8px; display: block; }
   .card .diamantes {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: #ffd200;
   }
-  .card .diamantes span { font-size: 0.9rem; color: #b8b8d1; font-weight: 400; }
+  .card .diamantes span { font-size: 0.85rem; color: #b8b8d1; font-weight: 400; }
   .card .precio {
     margin-top: 10px;
     font-size: 1.15rem;
@@ -89,6 +104,9 @@
     transition: 0.2s;
   }
   .card:hover .btn { transform: scale(1.05); }
+
+  .card.promo { border-color: rgba(255, 210, 0, 0.4); }
+
   footer {
     text-align: center;
     margin-top: 40px;
@@ -101,52 +119,83 @@
 <body>
 
 <header>
-  <h1>💎 Diamantes Free Fire</h1>
-  <p>Recarga por saldo · Entrega rápida y segura</p>
+  <div class="emoji-top">🪂 FREE FIRE 🪂</div>
+  <h1>ADRIANA DIAMONDS 🇨🇺</h1>
+  <h2>📱 SALDO MÓVIL 📱</h2>
+  <p>Recarga rápida y segura · Elige tu oferta 🛒</p>
 </header>
 
 <div class="aviso">
-  ⚡ Selecciona un paquete y se abrirá WhatsApp con tu pedido listo para enviar.
+  ⚡ Toca cualquier oferta y se abrirá WhatsApp con tu pedido listo para enviar.
 </div>
 
-<div class="grid" id="catalogo"></div>
+<div class="seccion-titulo">💎 Paquetes de Diamantes</div>
+<div class="grid" id="catalogo-diamantes"></div>
+
+<div class="seccion-titulo">🎟️ Pases y Membresías</div>
+<div class="grid" id="catalogo-pases"></div>
 
 <footer>
-  © 2025 Diamantes FF · Todos los derechos reservados
+  © 2025 Adriana Diamonds 🇨🇺 · Todos los derechos reservados
 </footer>
 
 <script>
-  // 👇 CAMBIA ESTE NÚMERO POR EL TUYO (código de país + número, sin + ni espacios)
-  const WHATSAPP_NUMERO = "5350561249";
+  // 👇 Número de WhatsApp (formato internacional, sin + ni espacios)
+  const WHATSAPP_NUMERO = "5350702534";
 
-  // Precio base: 110 diamantes = 360 de saldo
-  const PRECIO_BASE = 360;
-  const DIAMANTES_BASE = 110;
+  // ====== OFERTAS ======
+  const ofertasDiamantes = [
+    { diamantes: 110,  precio: 360,  icono: "💎" },
+    { diamantes: 220,  precio: 890,  icono: "💎" },
+    { diamantes: 341,  precio: 1050, icono: "💎" },
+    { diamantes: 572,  precio: 1600, icono: "💎" },
+    { diamantes: 1166, precio: 2940, icono: "💎" },
+    { diamantes: 2398, precio: 5545, icono: "💎" }
+  ];
 
-  // Generar paquetes desde 110 hasta 2000 (múltiplos de 110)
-  const paquetes = [];
-  for (let d = 110; d <= 2000; d += 110) {
-    const precio = Math.round((d / DIAMANTES_BASE) * PRECIO_BASE);
-    paquetes.push({ diamantes: d, precio: precio });
-  }
+  const ofertasPases = [
+    { nombre: "PASE BOOYAH (450💎)", precio: 1280, icono: "🎟️" },
+    { nombre: "Membresía Semanal",    precio: 980,  icono: "📅" },
+    { nombre: "Membresía Mensual",    precio: 4390, icono: "🗓️" }
+  ];
 
-  const catalogo = document.getElementById("catalogo");
-
-  paquetes.forEach(p => {
+  // ====== RENDER DIAMANTES ======
+  const contDiamantes = document.getElementById("catalogo-diamantes");
+  ofertasDiamantes.forEach(o => {
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `
-      <span class="icon">💎</span>
-      <div class="diamantes">${p.diamantes} <span>diamantes</span></div>
-      <div class="precio">$${p.precio} de saldo</div>
+      <span class="icon">${o.icono}</span>
+      <div class="diamantes">${o.diamantes} <span>diamantes</span></div>
+      <div class="precio">${o.precio} CUP 💵</div>
       <div class="btn">Pedir por WhatsApp</div>
     `;
-    card.addEventListener("click", () => enviarWhatsApp(p.diamantes, p.precio));
-    catalogo.appendChild(card);
+    card.addEventListener("click", () => enviarWhatsApp(`${o.diamantes} diamantes`, o.precio));
+    contDiamantes.appendChild(card);
   });
 
-  function enviarWhatsApp(diamantes, precio) {
-    const mensaje = `Hola, quiero comprar *${diamantes} diamantes* de Free Fire por *$${precio} de saldo*. ¿Está disponible?`;
+  // ====== RENDER PASES ======
+  const contPases = document.getElementById("catalogo-pases");
+  ofertasPases.forEach(o => {
+    const card = document.createElement("div");
+    card.className = "card promo";
+    card.innerHTML = `
+      <span class="icon">${o.icono}</span>
+      <div class="diamantes" style="font-size:1.1rem;">${o.nombre}</div>
+      <div class="precio">${o.precio} CUP 💵</div>
+      <div class="btn">Pedir por WhatsApp</div>
+    `;
+    card.addEventListener("click", () => enviarWhatsApp(o.nombre, o.precio));
+    contPases.appendChild(card);
+  });
+
+  // ====== ENVIAR A WHATSAPP ======
+  function enviarWhatsApp(producto, precio) {
+    const mensaje =
+      `Hola Adriana 👋, quiero comprar:\n\n` +
+      `🛒 *${producto}*\n` +
+      `💵 Precio: *${precio} CUP* (saldo móvil)\n\n` +
+      `¿Está disponible?`;
     const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, "_blank");
   }
